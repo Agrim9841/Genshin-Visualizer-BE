@@ -1,8 +1,9 @@
-import { Inject } from '@nestjs/common/decorators';
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Inject, UsePipes } from '@nestjs/common/decorators';
+import { ValidationPipe, Controller, Get, Post, Body } from '@nestjs/common';
 
-import { ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
+import { Character } from './characters.entity';
 import { CharacterService } from './characters.service';
 import { CreateCharacterDto } from './createCharacter.dto';
 
@@ -17,8 +18,13 @@ export class CharacterController {
   }
 
   @Post()
+  @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({
+    type: Character,
     description: 'The record has been successfully created.',
+  })
+  @ApiBadRequestResponse({
+    description: 'Error in request body',
   })
   save(@Body() createCharacterDto: CreateCharacterDto) {
     return this.characterService.saveCharacter(createCharacterDto);

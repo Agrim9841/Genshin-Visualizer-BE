@@ -26,13 +26,27 @@ export class CharacterService {
    * @returns Promise<Character[]>
    */
   saveCharacter(createCharacterDto: CreateCharacterDto): Promise<Character> {
-    console.log(createCharacterDto);
-    console.log(this.characterRepository.metadata);
-
-    const { name, description } = createCharacterDto;
+    const {
+      name,
+      title,
+      rarity,
+      weapon,
+      vision,
+      birthday,
+      birthmonth,
+      description,
+      constellation,
+    } = createCharacterDto;
     const newCharacter = this.characterRepository.create({
       name,
+      title,
+      rarity,
+      weapon,
+      vision,
+      birthday,
+      birthmonth,
       description,
+      constellation,
     });
 
     return this.characterRepository.save(newCharacter);
